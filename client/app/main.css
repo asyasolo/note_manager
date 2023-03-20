@@ -331,7 +331,7 @@ a {
 .guest-container-inner {
   display: flex;
   flex-wrap: nowrap;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
   max-width: 1600px;
   min-height: calc(100vh - 60px);
@@ -347,22 +347,22 @@ a {
   background-color: var(--backgroundColor-form);
   color: var(--textColor-form);
   width: 340px;
-  height: 400px;
-  margin-right: 104px;
+  height: 450px;
+  /*margin-right: 104px;*/
   box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);
   border-radius: 13px;
+  display: flex;
+  flex-direction: column;
 }
 .form-guest h4 {
-  display: block;
-  margin-top: 30.6px;
   text-align: center;
-  padding-bottom: 40px;
+  padding-top: 30px;
+  padding-bottom: 30px;
 }
 
-.form-guest-container {
-  /*doesn't work like at all*/
+/*.form-guest-container {
   margin: auto;
-}
+}*/
 
 .form-group {
   margin-left: 50px;
