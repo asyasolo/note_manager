@@ -6,7 +6,9 @@ import DispatchContext from "../DispatchContext"
 function HeaderLoggedOut() {
   const [username, setUsername] = useState()
   const [password, setPassword] = useState()
+  const [isFormVisible, setIsFormVisible] = useState(false)
   const appDispatch = useContext(DispatchContext)
+  const isMobile = window.innerWidth <= 768
 
   async function handleSubmit(e) {
     e.preventDefault()
@@ -24,20 +26,68 @@ function HeaderLoggedOut() {
     }
   }
 
+  const toggleFormVisibility = () => {
+    setIsFormVisible(!isFormVisible)
+  }
+
   return (
-    <form onSubmit={handleSubmit}>
-      <div className="login-form">
-        <div>
-          <input className="small login-input" onChange={e => setUsername(e.target.value)} name="username" type="text" placeholder="Логин" autoComplete="off" />
-        </div>
-        <div>
-          <input className="small login-input" onChange={e => setPassword(e.target.value)} name="password" type="password" placeholder="Пароль" autoComplete="off" />
-        </div>
-        <div>
-          <button className="btn login-btn">Войти</button>
-        </div>
-      </div>
-    </form>
+    <>
+      {isMobile ? (
+        <>
+          <button className="menu-button" onClick={toggleFormVisibility}>
+            <img
+              className="menu-button-img"
+              src="../../hamburger.png"
+              alt="menu"
+              width="17"
+              height="17"
+            />
+          </button>
+
+          {isFormVisible && (
+            <form onSubmit={handleSubmit} className="login-form login-form-hidden">
+              <input
+                className="small login-input-field"
+                onChange={(e) => setUsername(e.target.value)}
+                name="username"
+                type="text"
+                placeholder="login"
+                autoComplete="off"
+              />
+              <input
+                className="small login-input-field"
+                onChange={(e) => setPassword(e.target.value)}
+                name="password"
+                type="password"
+                placeholder="password"
+                autoComplete="off"
+              />
+              <button className="btn login-btn">login</button>
+            </form>
+          )}
+        </>
+      ) : (
+        <form onSubmit={handleSubmit} className="login-form ">
+          <input
+            className="small login-input-field"
+            onChange={(e) => setUsername(e.target.value)}
+            name="username"
+            type="text"
+            placeholder="login"
+            autoComplete="off"
+          />
+          <input
+            className="small login-input-field"
+            onChange={(e) => setPassword(e.target.value)}
+            name="password"
+            type="password"
+            placeholder="password"
+            autoComplete="off"
+          />
+          <button className="btn login-btn">login</button>
+        </form>
+      )}
+    </>
   )
 }
 

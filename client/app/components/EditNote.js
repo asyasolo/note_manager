@@ -17,18 +17,18 @@ function EditPost() {
     title: {
       value: "",
       hasErrors: false,
-      message: ""
+      message: "",
     },
     body: {
       value: "",
       hasErrors: false,
-      message: ""
+      message: "",
     },
     isFetching: true,
     isSaving: false,
     id: useParams().id,
     sendCount: 0,
-    notFound: false
+    notFound: false,
   }
   function ourReducer(draft, action) {
     switch (action.type) {
@@ -92,7 +92,10 @@ function EditPost() {
         if (response.data) {
           dispatch({ type: "fetchComplete", value: response.data })
           if (appState.user.username != response.data.author.username) {
-            appDispatch({ type: "flashMessage", value: "You don't have permission to edit this note." })
+            appDispatch({
+              type: "flashMessage",
+              value: "You don't have permission to edit this note.",
+            })
             navigate("/")
           }
         } else {
@@ -115,7 +118,11 @@ function EditPost() {
 
       async function fetchPost() {
         try {
-          const response = await Axios.post(`/note/${state.id}/edit`, { title: state.title.value, body: state.body.value, token: appState.user.token }, { cancelToken: axiosRequest.token })
+          const response = await Axios.post(
+            `/note/${state.id}/edit`,
+            { title: state.title.value, body: state.body.value, token: appState.user.token },
+            { cancelToken: axiosRequest.token },
+          )
           dispatch({ type: "saveRequestFinished" })
           appDispatch({ type: "flashMessage", value: "Post Was Updated" })
           navigate(`/note/${state.id}`)
@@ -144,16 +151,41 @@ function EditPost() {
   return (
     <Page title="Редактировать Заметку">
       <div className="one-note-container">
-        <Link className="back-btn" to={`/`}>
-          &laquo;
+        <Link to={`/`}>
+          <img className="back-btn" width={35} height={35} src="../img/arrow.png" alt="" />
         </Link>
 
         <form className="form-create-note" onSubmit={submitHandler}>
-          <input onBlur={e => dispatch({ type: "titleRules", value: e.target.value })} onChange={e => dispatch({ type: "titleChange", value: e.target.value })} value={state.title.value} autoFocus name="title" id="note-title" className="form-control form-control-title" type="text" placeholder="" autoComplete="off" />
-          {state.title.hasErrors && <div className="alert alert-danger small liveValidateMessage">{state.title.message}</div>}
+          <input
+            onBlur={(e) => dispatch({ type: "titleRules", value: e.target.value })}
+            onChange={(e) => dispatch({ type: "titleChange", value: e.target.value })}
+            value={state.title.value}
+            autoFocus
+            name="title"
+            id="note-title"
+            className="form-control form-control-title"
+            type="text"
+            placeholder=""
+            autoComplete="off"
+          />
+          {state.title.hasErrors && (
+            <div className="alert alert-danger small liveValidateMessage">
+              {state.title.message}
+            </div>
+          )}
 
-          <textarea onBlur={e => dispatch({ type: "bodyRules", value: e.target.value })} onChange={e => dispatch({ type: "bodyChange", value: e.target.value })} value={state.body.value} name="body" id="note-body" className="form-control form-control-body" type="text" />
-          {state.body.hasErrors && <div className="alert alert-danger small liveValidateMessage">{state.body.message}</div>}
+          <textarea
+            onBlur={(e) => dispatch({ type: "bodyRules", value: e.target.value })}
+            onChange={(e) => dispatch({ type: "bodyChange", value: e.target.value })}
+            value={state.body.value}
+            name="body"
+            id="note-body"
+            className="form-control form-control-body"
+            type="text"
+          />
+          {state.body.hasErrors && (
+            <div className="alert alert-danger small liveValidateMessage">{state.body.message}</div>
+          )}
 
           <button disabled={state.isSaving} className="btn save-btn save-btn-special">
             Сохранить заметку

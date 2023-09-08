@@ -11,7 +11,7 @@ function Home() {
   const appState = useContext(StateContext)
   const [state, setState] = useImmer({
     isLoading: true,
-    feed: []
+    feed: [],
   })
 
   useEffect(() => {
@@ -19,13 +19,17 @@ function Home() {
 
     async function fetchData() {
       try {
-        const response = await Axios.post("/getHomeFeed", { token: appState.user.token }, { cancelToken: axiosRequest.token })
-        setState(draft => {
+        const response = await Axios.post(
+          "/getHomeFeed",
+          { token: appState.user.token },
+          { cancelToken: axiosRequest.token },
+        )
+        setState((draft) => {
           ;(draft.isLoading = false), (draft.feed = response.data)
         })
       } catch (e) {
         console.log(e.response.data)
-        setState(draft => {
+        setState((draft) => {
           draft.isLoading = false
         })
       }
@@ -45,23 +49,26 @@ function Home() {
       <div className="home-container">
         {state.feed.length > 0 && (
           <div className="home-feed">
-            <h3>Что нового, {appState.user.username}?</h3>
-            <hr />
-            <div className="list-group">
-              {state.feed.map(note => {
-                return <Note note={note} key={note._id} />
+            <h2>what's going on, {appState.user.username}?</h2>
+            <ul className="list-group">
+              {state.feed.map((note, index) => {
+                return (
+                  <li key={index} className="list-group-item">
+                    <Note note={note} key={note._id} />
+                  </li>
+                )
               })}
-            </div>
+            </ul>
           </div>
         )}
         {state.feed.length == 0 && (
           <div className="home-empty">
-            <h3>Добро пожаловать в NoteBound, {appState.user.username}!</h3>
+            <h3>welcome to NoteBound, {appState.user.username}!</h3>
             <p>
-              Похоже, что у вас еще нет ни одной заметки! <br />
-              Создайте
+              it seems that you don't have any notes yet. <br />
+              create
               <Link to="/create-note">
-                <span className="green"> что-нибудь новое</span>
+                <span className="word-green"> something new</span>
               </Link>
               :)
             </p>

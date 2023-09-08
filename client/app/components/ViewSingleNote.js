@@ -47,7 +47,7 @@ function ViewSingleNote() {
     )
 
   const date = new Date(note.createdDate)
-  const dateFormatted = `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`
+  const dateFormatted = `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}`
 
   function isOwner() {
     if (appState.loggedIn) {
@@ -72,47 +72,48 @@ function ViewSingleNote() {
     }
   }
 
-  // Things inside
-  /* 
-  <span className="pt-2">
-            <Link to={`/note/${note._id}/edit`} className="text-primary mr-2">
-              <i className="fas fa-edit"></i>
-            </Link>
-            <a onClick={deleteHandler} className="delete-note-button text-danger">
-              <i className="fas fa-trash"></i>
-            </a>
-          </span>
-          */
-
   return (
     <Page title={note.title}>
       <div className="one-note-container">
-        <Link className="back-btn" to={`/`}>
-          &laquo;
+        <Link to={`/`}>
+          <img className="back-btn" width={35} height={35} src="../img/arrow.png" alt="" />
         </Link>
 
-        <div className="one-note-container-inner">
-          <div className="one-note-content">
-            <h2>{note.title}</h2>
-            <p>{dateFormatted}</p>
-            <hr />
+        <div className="one-note-content">
+          <h2>{note.title}</h2>
+          <p>{dateFormatted}</p>
+          <hr />
 
-            <div className="body-content">
-              <ReactMarkdown children={note.body} allowedElements={["p", "br", "em", "h1", "h2", "h3", "h4", "ul", "ol", "li", "strong"]} />
-            </div>
+          <div className="body-content">
+            <ReactMarkdown
+              children={note.body}
+              allowedElements={[
+                "p",
+                "br",
+                "em",
+                "h1",
+                "h2",
+                "h3",
+                "h4",
+                "ul",
+                "ol",
+                "li",
+                "strong",
+              ]}
+            />
           </div>
-
-          {isOwner() && (
-            <div className="btn-container">
-              <Link to={`/note/${note._id}/edit`}>
-                <button className="btn edit-btn edit-btn-special">Изменить заметку</button>
-              </Link>
-              <a onClick={deleteHandler}>
-                <button className="btn delete-btn">Удалить заметку</button>
-              </a>
-            </div>
-          )}
         </div>
+
+        {isOwner() && (
+          <div className="view-note-button-cluster">
+            <Link to={`/note/${note._id}/edit`}>
+              <button className="btn edit-btn">edit</button>
+            </Link>
+            <a onClick={deleteHandler}>
+              <button className="btn delete-btn">delete</button>
+            </a>
+          </div>
+        )}
       </div>
     </Page>
   )

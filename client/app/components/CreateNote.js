@@ -30,16 +30,32 @@ function CreatePost(props) {
   return (
     <Page title="Создайте Заметку">
       <div className="one-note-container">
-        <Link className="back-btn" to={`/`}>
-          &laquo;
+        <Link to={`/`}>
+          <img className="back-btn" width={35} height={35} src="../img/arrow.png" alt="" />
         </Link>
 
         <form className="form-create-note" onSubmit={handleSubmit}>
-          <input placeholder="Название..." onChange={e => setTitle(e.target.value)} autoFocus name="title" id="note-title" className="form-control form-control-title" type="text" autoComplete="off" />
+          <input
+            placeholder="title"
+            onChange={(e) => setTitle(e.target.value)}
+            autoFocus
+            name="title"
+            id="note-title"
+            className="form-control form-control-title"
+            type="text"
+            autoComplete="off"
+          />
 
-          <textarea placeholder="Заметка..." onChange={e => setBody(e.target.value)} name="body" id="note-body" className="form-control form-control-body" type="text"></textarea>
+          <textarea
+            placeholder="note"
+            onChange={(e) => setBody(e.target.value)}
+            name="body"
+            id="note-body"
+            className="form-control form-control-body"
+            type="text"
+          ></textarea>
 
-          <button className="btn save-btn save-btn-special">Сохранить заметку</button>
+          <button className="btn save-btn">save note</button>
         </form>
       </div>
     </Page>

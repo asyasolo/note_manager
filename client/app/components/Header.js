@@ -9,7 +9,7 @@ function Header(props) {
   const appState = useContext(StateContext)
 
   return (
-    <header className="header-bar">
+    <header className="header">
       <Link to="/" className="logo">
         NoteBound
       </Link>

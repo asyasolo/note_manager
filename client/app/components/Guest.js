@@ -15,21 +15,21 @@ function Guest() {
       hasErrors: false,
       message: "",
       isUnique: false,
-      checkCount: 0
+      checkCount: 0,
     },
     email: {
       value: "",
       hasErrors: false,
       message: "",
       isUnique: false,
-      checkCount: 0
+      checkCount: 0,
     },
     password: {
       value: "",
       hasErrors: false,
-      message: ""
+      message: "",
     },
-    submitCount: 0
+    submitCount: 0,
   }
 
   function reducer(draft, action) {
@@ -101,7 +101,13 @@ function Guest() {
         }
         return
       case "submitForm":
-        if (!draft.username.hasErrors && draft.username.isUnique && !draft.email.hasErrors && draft.email.isUnique && !draft.password.hasErrors) {
+        if (
+          !draft.username.hasErrors &&
+          draft.username.isUnique &&
+          !draft.email.hasErrors &&
+          draft.email.isUnique &&
+          !draft.password.hasErrors
+        ) {
           draft.submitCount++
         }
         return
@@ -137,7 +143,11 @@ function Guest() {
       const request = Axios.CancelToken.source()
       async function fetchResults() {
         try {
-          const response = await Axios.post("/doesUsernameExist", { username: state.username.value }, { cancelToken: request.token })
+          const response = await Axios.post(
+            "/doesUsernameExist",
+            { username: state.username.value },
+            { cancelToken: request.token },
+          )
           dispatch({ type: "usernameUniqueResults", value: response.data })
         } catch (error) {
           console.log(error.response.data)
@@ -153,7 +163,11 @@ function Guest() {
       const request = Axios.CancelToken.source()
       async function fetchResults() {
         try {
-          const response = await Axios.post("/doesEmailExist", { email: state.email.value }, { cancelToken: request.token })
+          const response = await Axios.post(
+            "/doesEmailExist",
+            { email: state.email.value },
+            { cancelToken: request.token },
+          )
           dispatch({ type: "emailUniqueResults", value: response.data })
         } catch (error) {
           console.log(error.response.data)
@@ -170,7 +184,15 @@ function Guest() {
       const request = Axios.CancelToken.source()
       async function fetchResults() {
         try {
-          const response = await Axios.post("/register", { email: state.email.value, username: state.username.value, password: state.password.value }, { cancelToken: request.token })
+          const response = await Axios.post(
+            "/register",
+            {
+              email: state.email.value,
+              username: state.username.value,
+              password: state.password.value,
+            },
+            { cancelToken: request.token },
+          )
           appDispatch({ type: "login", data: response.data })
           appDispatch({ type: "flashMessage", value: "Your account was created!" })
         } catch (error) {
@@ -196,46 +218,86 @@ function Guest() {
   return (
     <Page title="Привет!">
       <div className="guest-container">
-        <div className="guest-container-inner">
-          <h1 className="guest-text">
-            NoteBound это удобный список дел, <br />
-            хранилище текстов и изображений
-          </h1>
-          <div className="form-guest">
-            <h4>Регистрация</h4>
-            <form className="form-guest-container" onSubmit={handleSubmit}>
-              <div className="form-group">
-                <label htmlFor="username-register">
-                  <small>Логин</small>
-                </label>
-                <input onChange={e => dispatch({ type: "usernameImmediately", value: e.target.value })} id="username-register" name="username" type="text" placeholder="введите имя" autoComplete="off" />
-                <CSSTransition in={state.username.hasErrors} timeout={330} classNames="liveValidateMessage" unmountOnExit>
-                  <div className="alert alert-danger small liveValidateMessage">{state.username.message}</div>
-                </CSSTransition>
-              </div>
-              <div className="form-group">
-                <label htmlFor="email-register">
-                  <small>Почта</small>
-                </label>
-                <input onChange={e => dispatch({ type: "emailImmediately", value: e.target.value })} id="email-register" name="email" type="text" placeholder="you@example.com" autoComplete="off" />
-                <CSSTransition in={state.email.hasErrors} timeout={330} classNames="liveValidateMessage" unmountOnExit>
-                  <div className="alert alert-danger small liveValidateMessage">{state.email.message}</div>
-                </CSSTransition>
-              </div>
-              <div className="form-group">
-                <label htmlFor="password-register">
-                  <small>Пароль</small>
-                </label>
-                <input onChange={e => dispatch({ type: "passwordImmediately", value: e.target.value })} id="password-register" name="password" type="password" placeholder="введите пароль" />
-                <CSSTransition in={state.password.hasErrors} timeout={330} classNames="liveValidateMessage" unmountOnExit>
-                  <div className="alert alert-danger small liveValidateMessage">{state.password.message}</div>
-                </CSSTransition>
-              </div>
-              <button className="btn register-btn" type="submit">
-                Зарегистрироваться
-              </button>
-            </form>
-          </div>
+        <img src="../../drawing.png" className="guest-container-img" alt="" />
+        <h1 className="guest-container-text">write what you mean</h1>
+        <div className="guest-container-form-wrapper">
+          <h4>register here</h4>
+          <form className="guest-container-form" onSubmit={handleSubmit}>
+            <div className="form-group">
+              <label htmlFor="username-register">
+                <small>login</small>
+              </label>
+              <input
+                onChange={(e) => dispatch({ type: "usernameImmediately", value: e.target.value })}
+                id="username-register"
+                name="username"
+                type="text"
+                placeholder="jane doe"
+                autoComplete="off"
+                className="register-input-field"
+              />
+              <CSSTransition
+                in={state.username.hasErrors}
+                timeout={330}
+                classNames="liveValidateMessage"
+                unmountOnExit
+              >
+                <div className="alert alert-danger small liveValidateMessage">
+                  {state.username.message}
+                </div>
+              </CSSTransition>
+            </div>
+            <div className="form-group">
+              <label htmlFor="email-register">
+                <small>email</small>
+              </label>
+              <input
+                onChange={(e) => dispatch({ type: "emailImmediately", value: e.target.value })}
+                id="email-register"
+                name="email"
+                type="text"
+                placeholder="you@example.com"
+                className="register-input-field"
+                autoComplete="off"
+              />
+              <CSSTransition
+                in={state.email.hasErrors}
+                timeout={330}
+                classNames="liveValidateMessage"
+                unmountOnExit
+              >
+                <div className="alert alert-danger small liveValidateMessage">
+                  {state.email.message}
+                </div>
+              </CSSTransition>
+            </div>
+            <div className="form-group">
+              <label htmlFor="password-register">
+                <small>password</small>
+              </label>
+              <input
+                onChange={(e) => dispatch({ type: "passwordImmediately", value: e.target.value })}
+                id="password-register"
+                name="password"
+                type="password"
+                className="register-input-field"
+                placeholder="********"
+              />
+              <CSSTransition
+                in={state.password.hasErrors}
+                timeout={330}
+                classNames="liveValidateMessage"
+                unmountOnExit
+              >
+                <div className="alert alert-danger small liveValidateMessage">
+                  {state.password.message}
+                </div>
+              </CSSTransition>
+            </div>
+            <button className="btn register-btn" type="submit">
+              register me
+            </button>
+          </form>
         </div>
       </div>
     </Page>

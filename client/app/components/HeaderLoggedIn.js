@@ -12,14 +12,12 @@ function HeaderLoggedIn(props) {
   }
 
   return (
-    <div>
-      <Link to="/create-note">
-        <button className="btn create-btn create-btn-special">Создать</button>
+    <div className="header-button-cluster">
+      <Link to="/create-note" className="btn create-btn">
+        create
       </Link>
-      <Link to="/">
-        <button className="btn logout-btn" onClick={handleLogout}>
-          Выйти
-        </button>
+      <Link to="/" className="btn logout-btn" onClick={handleLogout}>
+        log out
       </Link>
     </div>
   )
